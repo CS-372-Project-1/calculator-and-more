@@ -1,3 +1,6 @@
+mod autoArray;
+// mod calculator;
+
 fn main() {
-    println!("Hello, world!");
+    autoArray::run();
 }
