@@ -1,7 +1,7 @@
-mod autoArray;
+mod auto_array;
 mod calculator;
 
 fn main() {
-    autoArray::run();
-    // calculator::run();
+    auto_array::run();
+    //calculator::run();
 }

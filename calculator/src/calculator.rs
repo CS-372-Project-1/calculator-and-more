@@ -50,25 +50,25 @@ io::stdin().read_line(&mut datatype_1).expect("Error: Please input a numeric val
 
 // unfortunatelt there isn't a better way to do explicit conversions than this
 if datatype_1 == "u8" {
-    let num_1 = value_1.parse().unwrap() as i8;
+    let num_1 = value_1.parse::<i8>().unwrap() as u8;
 } else if datatype_1 == "u16" {
-    let num_1 = value_1.parse().unwrap() as u16;
+    let num_1 = value_1.parse::<u16>().unwrap() as u16;
 } else if datatype_1 == "u32" {
-    let num_1 = value_1.parse().unwrap() as u32;
+    let num_1 = value_1.parse::<u32>().unwrap() as u32;
 } else if datatype_1 == "u64" {
-    let num_1 = value_1.parse().unwrap() as u64;
+    let num_1 = value_1.parse::<u64>().unwrap() as u64;
 } else if datatype_1 == "u128" {
-    let num_1 = value_1.parse().unwrap() as u128;
+    let num_1 = value_1.parse::<u128>().unwrap() as u128;
 } else if datatype_1 == "i8" {
-    let num_1 = value_1.parse().unwrap() as i8;
+    let num_1 = value_1.parse::<i8>().unwrap() as i8;
 } else if datatype_1 == "i16" {
-    let num_1 = value_1.parse().unwrap() as i16;
+    let num_1 = value_1.parse::<i16>().unwrap() as i16;
 } else if datatype_1 == "i32" {
-    let num_1 = value_1.parse().unwrap() as i32;
+    let num_1 = value_1.parse::<i32>().unwrap() as i32;
 } else if datatype_1 == "i64" {
-    let num_1 = value_1.parse().unwrap() as i64;
+    let num_1 = value_1.parse::<i64>().unwrap() as i64;
 } else if datatype_1 == "i128" {
-    let num_1 = value_1.parse().unwrap() as i128;
+    let num_1 = value_1.parse::<i128>().unwrap() as i128;
 }
 
 let mut operator = String::new();
@@ -98,23 +98,23 @@ io::stdin().read_line(&mut value_2).expect("Error: Please input a numeric value"
 if datatype_2 == "u8" {
     num_2 = value_1.parse().unwrap();
 } else if datatype_2 == "u16" {
-    let num_2 = value_1.parse().unwrap() as u16;
+    let num_2 = value_1.parse::<u16>().unwrap() as u16;
 } else if datatype_2 == "u32" {
-    let num_2 = value_1.parse().unwrap() as u32;
+    let num_2 = value_1.parse::<u32>().unwrap() as u32;
 } else if datatype_2 == "u64" {
-    let num_2 = value_1.parse().unwrap() as u64;
+    let num_2 = value_1.parse::<u64>().unwrap() as u64;
 } else if datatype_2 == "u128" {
-    let num_2 = value_1.parse().unwrap() as u128;
+    let num_2 = value_1.parse::<u128>().unwrap() as u128;
 } else if datatype_2 == "i8" {
-    let num_2 = value_1.parse().unwrap() as i8;
+    let num_2 = value_1.parse::<i8>().unwrap() as i8;
 } else if datatype_2 == "i16" {
-    let num_2 = value_1.parse().unwrap() as i16;
+    let num_2 = value_1.parse::<i16>().unwrap() as i16;
 } else if datatype_2 == "i32" {
-    let num_2 = value_1.parse().unwrap() as i32;
+    let num_2 = value_1.parse::<i32>().unwrap() as i32;
 } else if datatype_2 == "i64" {
-    let num_2 = value_1.parse().unwrap() as i64;
+    let num_2 = value_1.parse::<i64>().unwrap() as i64;
 } else if datatype_2 == "i128" {
-    let num_2 = value_1.parse().unwrap() as i128;
+    let num_2 = value_1.parse::<i128>().unwrap() as i128;
 }
 
 // create the full equation and print the results and allocated memory
