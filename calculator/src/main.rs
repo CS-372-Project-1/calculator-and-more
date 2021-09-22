@@ -1,6 +1,7 @@
 mod autoArray;
-// mod calculator;
+mod calculator;
 
 fn main() {
     autoArray::run();
+    // calculator::run();
 }

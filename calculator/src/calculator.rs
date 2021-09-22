@@ -45,12 +45,12 @@ print!("Please enter the numeric type of your first number\nSelect signed if you
 let mut datatype_1 = String::new();
 io::stdin().read_line(&mut datatype_1).expect("Error: Please input a numeric datatype");
 
-// TODO: if for all types
 let value_1 = String::new();
 io::stdin().read_line(&mut datatype_1).expect("Error: Please input a numeric value");
 
+// unfortunatelt there isn't a better way to do explicit conversions than this
 if datatype_1 == "u8" {
-    num_1 = value_1.parse().unwrap();
+    let num_1 = value_1.parse().unwrap() as i8;
 } else if datatype_1 == "u16" {
     let num_1 = value_1.parse().unwrap() as u16;
 } else if datatype_1 == "u32" {
