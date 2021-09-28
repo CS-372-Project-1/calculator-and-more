@@ -10,6 +10,7 @@
 
 
 use std::io;
+use std::option::Option::None;
 
 /*
     run: Takes in user input on data types and demonstrates
@@ -18,12 +19,12 @@ pub fn run() {
     // Use tuples to hold the possible data types.
     // Group all the tuples into an immutable single tuple of tuples
     let num_types_1 = (("u8", u8::MAX), ("u16", u16::MAX), ("u32", u32::MAX), ("u64", u64::MAX), ("u128", u128::MAX), 
-        ("ui8", i8::MAX), ("i16", i16::MAX), ("i32", i32::MAX), ("i64", i64::MAX), ("i128", i128::MAX));
+        ("i8", i8::MAX), ("i16", i16::MAX), ("i32", i32::MAX), ("i64", i64::MAX), ("i128", i128::MAX));
     let plus = "+";
     let minus = "-";
     let div = "/";
     let mult = "*";
-
+    
     // Intro prompt
     println!("Welcome to Bitmath!\n");
 
@@ -70,14 +71,12 @@ pub fn run() {
     io::stdin().read_line(&mut value_2).expect("Error: Please input a numeric value");
     value_2 = value_2.trim_end().to_string();
 
-    println!("hello {}", datatype_1);
-
     // Unfortunately there isn't a better way to do explicit conversions than this. This is a real limitation of the Rust
     // language when it comes to integers.
     if datatype_1.eq("u8") {
-        println!("hi");
         let mut num_1: u8 = 0;
         let mut num_2: u8 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
         
         // Rust doesn't have a built-in try-catch block, this is the equivalent.
         // Verifies that the user actually entered a numeric value.
@@ -101,24 +100,42 @@ pub fn run() {
 
         // Create the full equation and print the results
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+            }
         } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
+            let result = num_1.checked_sub(num_2);
+            if result.eq(&overflow) {
+                println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} - {} = {:?}", num_1, num_2, result);
+            }
         } else if operator.eq(div) {
-            let result = num_1 / num_2;
+            let result = num_1.checked_div(num_2);
             let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
+            if result.eq(&overflow) {
+                println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+            }
         } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
+            let result = num_1.checked_mul(num_2);
+            if result.eq(&overflow) {
+                println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} * {} = {:?}", num_1, num_2, result);
+            }
         } else {
             println!("Invalid operator.");
         }
     } else if datatype_1.eq("u16") {
         let mut num_1: u16 = 0;
         let mut num_2: u16 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<u16>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -135,24 +152,42 @@ pub fn run() {
             },
         }
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
-            println!("Invalid operator.");
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+            }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+            }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
+                println!("Invalid operator.");
         }
     } else if datatype_1.eq("u32") {
         let mut num_1: u32 = 0;
         let mut num_2: u32 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<u32>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -168,26 +203,43 @@ pub fn run() {
                 return;
             },
         }
-
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
     } else if datatype_1.eq("u64") {
         let mut num_1: u64 = 0;
         let mut num_2: u64 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<u64>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -205,24 +257,42 @@ pub fn run() {
         }
 
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
     } else if datatype_1.eq("u128") {
         let mut num_1: u128 = 0;
         let mut num_2: u128 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<u128>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -238,26 +308,44 @@ pub fn run() {
                 return;
             },
         }
-
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
+        
     } else if datatype_1.eq("i8") {
         let mut num_1: i8 = 0;
         let mut num_2: i8 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<i8>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -275,24 +363,42 @@ pub fn run() {
         }
 
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
     } else if datatype_1.eq("i16") {
         let mut num_1: i16 = 0;
         let mut num_2: i16 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<i16>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -310,24 +416,42 @@ pub fn run() {
         }
 
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
     } else if datatype_1.eq("i32") {
         let mut num_1: i32 = 0;
         let mut num_2: i32 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<i32>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -345,24 +469,42 @@ pub fn run() {
         }
 
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
     } else if datatype_1.eq("i64") {
         let mut num_1: i64 = 0;
         let mut num_2: i64 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<i64>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -380,24 +522,42 @@ pub fn run() {
         }
 
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
     } else if datatype_1.eq("i128") {
         let mut num_1: i128 = 0;
         let mut num_2: i128 = 0;
+        let overflow = None; // if overflow occurs in any math operation, we'll end the program
+
         match value_1.parse::<i128>() {
             Ok(i) => num_1 = i,
             Err(..) => {
@@ -415,22 +575,36 @@ pub fn run() {
         }
 
         if operator.eq(plus) {
-            let result = num_1 + num_2;
-            println!("{} + {} = {}", num_1, num_2, result);
-        } else if operator.eq(minus) {
-            let result = num_1 - num_2;
-            println!("{} - {} = {}", num_1, num_2, result);
-        } else if operator.eq(div) {
-            let result = num_1 / num_2;
-            let remainder = num_1 % num_2;
-            println!("{} / {} = {} with remainder {}", num_1, num_2, result, remainder);
-        } else if operator.eq(mult) {
-            let result = num_1 * num_2;
-            println!("{} * {} = {}", num_1, num_2, result);
-        } else {
+            let result = num_1.checked_add(num_2);
+            if result.eq(&overflow) {
+                println!("{} + {} results in overflow, program terminating...", num_1, num_2);
+            } else {
+                println!("{} + {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(minus) {
+                let result = num_1.checked_sub(num_2);
+                if result.eq(&overflow) {
+                    println!("{} - {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} - {} = {:?}", num_1, num_2, result);
+                }
+            } else if operator.eq(div) {
+                let result = num_1.checked_div(num_2);
+                let remainder = num_1 % num_2;
+                if result.eq(&overflow) {
+                    println!("{} / {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} / {} = {:?} with remainder {}", num_1, num_2, result, remainder);
+                }
+            } else if operator.eq(mult) {
+                let result = num_1.checked_mul(num_2);
+                if result.eq(&overflow) {
+                    println!("{} * {} results in overflow, program terminating...", num_1, num_2);
+                } else {
+                    println!("{} * {} = {:?}", num_1, num_2, result);
+                }
+            } else {
             println!("Invalid operator.");
         }
-    } else {
-        println!("Invalid data type.");
     }
 }
