@@ -1,6 +1,7 @@
 # Calculator and Auto_Array
 Welcome to our smaller demo programs. Calculator demonstrates the different
-varieties of integers available in Rust, and Auto_Array fills an 
+varieties of integers available in Rust, and Auto_Array fills an array with integers from
+0 to 100 and prints it out using special debug print statements.
 
 ## How to Run
 To run, simply install Rust into your terminal using the 
@@ -11,7 +12,9 @@ the prompts to interact with the calculator program.
 
 The program will most likely run with warnings. This is due to Rust's compile-time usage checker, 
 and we think it might be due to code coverage as well but we are not sure. Rest assured, this program
-has been tested thoroughly and works perfectly as intended.
+has been tested thoroughly and works perfectly as intended. If you want, you can run only auto_array by 
+commenting lines 12 and 19 or only calculator by commenting lines 13 and 20 in main.rs. Disabling calculator
+will run auto_array with no terminal warnings for ease of viewing.
 
 ## Language Coverage
 Facets of the language demonstrated by this program are:
