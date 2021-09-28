@@ -21,6 +21,7 @@ Facets of the language demonstrated by this program are:
 - Integers (u8, u16, u32, u64, u128, i8, i16, i32, i64, i128)
 - Printing to Stdout
 - Match statements (Rust try/catch)
+- Integer Overflow
 - Mutable vs. Immutable Values
 - Splitting a program into multiple files
 - Strings
