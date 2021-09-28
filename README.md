@@ -9,6 +9,10 @@ the calculator folder in the calculator-and-more directory in the terminal and r
 command: cargo run. Simply observe the output of the array program and follow
 the prompts to interact with the calculator program.
 
+The program will most likely run with warnings. This is due to Rust's compile-time usage checker, 
+and we think it might be due to code coverage as well but we are not sure. Rest assured, this program
+has been tested thoroughly and works perfectly as intended.
+
 ## Language Coverage
 Facets of the language demonstrated by this program are:
 - Arrays
