@@ -16,6 +16,6 @@ mod calculator;
     main: Runs the auxillary programs.
 */
 fn main() {
-    //auto_array::run();
+    auto_array::run();
     calculator::run();
 }
